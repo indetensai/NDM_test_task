@@ -2,8 +2,10 @@ package main
 
 import (
 	"encoding/json"
+	"fmt"
 	"log"
 	"net/http"
+	"os"
 	"strconv"
 	"strings"
 	"sync"
@@ -121,5 +123,12 @@ func main() {
 			w.WriteHeader(http.StatusMethodNotAllowed)
 		}
 	})
-	log.Fatal(http.ListenAndServe(":8080", nil))
+	var port string
+	if len(os.Args) > 1 {
+		port = os.Args[1]
+	} else {
+		port = "8080"
+	}
+	fmt.Printf("server listening at %s", port)
+	log.Fatal(http.ListenAndServe(":"+port, nil))
 }
